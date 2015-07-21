@@ -5,7 +5,8 @@
 
         <title>UnKnoWnCheaTs Clicker</title>
 
-        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
@@ -40,9 +41,41 @@
                             </div>
                         </div>
 
-                        <!-- ==== Posting buttons ==== -->
-                        <div id="todo">
+                        <!-- ==== General statistics ==== -->
+                        <div id="content-generalStats" class="invisible">
+                            <div class="row">
+                                <div class="col m3">
+                                    <p>Username: <span id="stats-username"></span></p>
+                                </div>
+                                <div class="col m3">
+                                    <p>Posts: <span id="stats-posts"></span></p>
+                                </div>
+                                <div class="col m3">
+                                    <p>Threads: <span id="stats-threads"></span></p>
+                                </div>
+                                <div class="col m3">
+                                    <p>Reputation: <span id="stats-reputation"></span></p>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- ==== Posting buttons ==== -->
+                        <div id="content-postButtons" class="invisible">
+                            <div class="row">
+                                <div class="col s12">
+                                    <h5>Posts</h5>
+                                </div>
+                            </div>
+                            <div class="row valign-wrapper">
+                                <div class="col s2">
+                                    <a id="btn-post-thankYou" class="waves-effect waves-light btn" onclick="buttonClick('post', 'thankYou')">"Thank you" post</a>
+                                </div>
+                                <div class="col s4">
+                                    <div class="progress">
+                                        <div id="progress-post-thankYou" class="determinate" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
