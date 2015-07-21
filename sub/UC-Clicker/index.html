@@ -36,7 +36,7 @@
                                     <label for="input_username">Username</label>
                                 </div>
                                 <div class="col s6 valign">
-                                    <a class="waves-effect waves-light btn" onclick="register()">Register</a>
+                                    <a class="waves-effect waves-light btn" onclick="register()" style="user-select: none !important;">Register</a>
                                 </div>
                             </div>
                         </div>
@@ -54,24 +54,46 @@
                                 </div>
                                 <div class="col m4">
                                     <p style="margin: 0;"><span class="grey-text">Reputation:</span> <span id="stats-reputation"></span></p>
+                                    <p style="margin: 0;"><span class="grey-text">Knowledge:</span> <span id="stats-knowledge"></span></p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- ==== Posting buttons ==== -->
-                        <div id="content-postButtons" class="invisible">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h5>Posts</h5>
+
+                        <div class="row">
+                            <div id="content-navigation" class="col s12 invisible" style="margin-bottom: 25px;">
+                                <ul class="tabs">
+                                    <li class="tab col s6" id="tabbutton-posts"><a class="active teal-text lighten-1" href="#tabcontent-posts">Posts</a></li>
+                                    <li class="tab col s6 invisible" id="tabbutton-learning"><a class="teal-text lighten-1" href="#tabcontent-learning">Learning</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- ==== Posting buttons ==== -->
+                            <div id="tabcontent-posts" class="col s12">
+                                <div id="content-postButtons" class="invisible">
+                                    <div class="row valign-wrapper">
+                                        <div class="col s3">
+                                            <a id="btn-post-thankYou" class="waves-effect waves-light btn col s12" style="user-select: none !important;">"Thank you" post</a>
+                                        </div>
+                                        <div class="col s3">
+                                            <div class="progress">
+                                                <div id="progress-post-thankYou" class="determinate" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row valign-wrapper">
-                                <div class="col s3">
-                                    <a id="btn-post-thankYou" class="waves-effect waves-light btn col s12">"Thank you" post</a>
-                                </div>
-                                <div class="col s3">
-                                    <div class="progress">
-                                        <div id="progress-post-thankYou" class="determinate" style="width: 0%"></div>
+
+                            <!-- ==== Learning buttons ==== -->
+                            <div id="tabcontent-learning" class="col s12">
+                                <div class="row valign-wrapper">
+                                    <div class="col s3">
+                                        <a id="btn-learn-progForDummies" class="waves-effect waves-light btn col s12" style="user-select: none !important;">Read "Programming for dummies"</a>
+                                    </div>
+                                    <div class="col s3">
+                                        <div class="progress">
+                                            <div id="progress-learn-progForDummies" class="determinate" style="width: 0%"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

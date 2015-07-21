@@ -3,7 +3,8 @@ var stats = {
     title: "A Pathetic n00bie",
     posts: 0,
     threads: 0,
-    reputation: 10
+    reputation: 10,
+    knowledge: 0
 };
 
 var titles = [
@@ -41,6 +42,7 @@ var register = function () {
         setStat("posts", stats.posts);
         setStat("threads", stats.threads);
         setStat("reputation", stats.reputation);
+        setStat("knowledge", stats.knowledge);
         startGame();
     } else {
         Materialize.toast("Please enter a valid username", 4000);
@@ -49,8 +51,11 @@ var register = function () {
 
 var startGame = function () {
     Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality thank you post, to boost your post count!", 10000);
+    showContent("#tabbutton-posts");
     showContent("#content-generalStats");
+    showContent("#content-navigation");
     showContent("#content-postButtons");
+    $(".indicator").addClass("teal").addClass("lighten-1");
 };
 
 var showContent = function (query) {
@@ -90,6 +95,15 @@ $("a[id^='btn-']").click(function () {
             setStat(stat, stats[stat] + increment);
             buttonEnable(thisButton);
             checkTitleUpdate(stats[stat]);
+
+            if (stats.posts === 7) {
+                Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
+                setStat("reputation", stats.reputation - 15);
+            }
+            if (stats.posts === 9) {
+                Materialize.toast("Maybe we should post some valuable content for once. We need to learn to do that though!", 4000);
+                showContent("#tabbutton-learning");
+            }
         });
     }
 });
