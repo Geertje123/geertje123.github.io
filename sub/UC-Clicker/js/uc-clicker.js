@@ -1,9 +1,34 @@
 var stats = {
     username: "",
+    title: "A Pathetic n00bie",
     posts: 0,
     threads: 0,
     reputation: 10
 };
+
+var titles = [
+    ["A Pathetic n00bie", 0, "red"],
+    ["n00bie", 1, "cyan"],
+    ["Posting Well", 25, "navy"],
+    ["Junior Member", 35, "orange"],
+    ["Member", 55, "green"],
+    ["Senior Member", 75, "red"],
+    ["h4x0!2", 90, "blue"],
+    ["1337 H4x0!2", 120, "purple"],
+    ["God-Like", 145, "gold"],
+    ["A God", 170, "gold"],
+    ["Super l337", 200, "gold"],
+    ["Hacker Supreme", 220, "gold"],
+    ["A Legend", 250, "gold"],
+    ["UC Supporter", 280, "gold"],
+    ["Super H4x0r", 310, "gold"],
+    ["Supreme G0d", 350, "gold"],
+    ["The 0n3", 410, "red"],
+    ["The Legendary Cheater", 470, "blue"],
+    ["Supreme H4x0|2", 570, "yellow"],
+    ["I Own Everyone", 700, "green"],
+    ["UnKnoWnCheaTeR", 800, "gold"]
+];
 
 var register = function () {
     var inputUsername = $("#input_username").val();
@@ -11,6 +36,8 @@ var register = function () {
     if (inputUsername.length > 0 && inputUsername.length < 16) {
         hideContent("#content-register");
         setStat("username", inputUsername);
+        setStat("title", titles[0][0]);
+        $("#stats-title").attr("style", "color: " + titles[0][2] + ";");
         setStat("posts", stats.posts);
         setStat("threads", stats.threads);
         setStat("reputation", stats.reputation);
@@ -62,9 +89,29 @@ $("a[id^='btn-']").click(function () {
         increaseProgress(section, button, duration, function () {
             setStat(stat, stats[stat] + increment);
             buttonEnable(thisButton);
+            checkTitleUpdate(stats[stat]);
         });
     }
 });
+
+var checkTitleUpdate = function (postCount) {
+    var oldTitle = stats.title;
+    var newTitle = "";
+    var newColour = "";
+
+    $.each(titles, function (i) {
+        if (postCount >= titles[i][1]) {
+            newTitle = titles[i][0];
+            newColour = titles[i][2];
+        }
+    });
+
+    if (oldTitle !== newTitle) {
+        Materialize.toast("New title achieved!", 4000);
+        setStat("title", newTitle);
+        $("#stats-title").attr("style", "color: " + newColour + ";")
+    }
+};
 
 var buttonDisable = function (button) {
     button
