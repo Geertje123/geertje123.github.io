@@ -21,7 +21,7 @@ var register = function () {
 };
 
 var startGame = function () {
-    Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality thank you post, to boost your post count up!", 10000);
+    Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality thank you post, to boost your post count!", 10000);
     showContent("#content-generalStats");
     showContent("#content-postButtons");
 };
@@ -39,28 +39,92 @@ var setStat = function (statKey, statValue) {
     $("#stats-" + statKey).text(statValue);
 };
 
-var buttonClick = function (section, button) {
-    if (section === "post") {
-        if (button === "thankYou") {
-            increaseProgress("post", "thankYou", function () {
-                setStat("posts", stats.posts + 1);
-            });
+
+$("a[id^='btn-']").click(function () {
+    var thisButton = $(this);
+    var section = thisButton.prop("id").split("-")[1];
+    var button = thisButton.prop("id").split("-")[2];
+
+    if (!$(this).hasClass("disabled")) {
+        buttonDisable(thisButton);
+        var duration = 0;
+        var increment = 0;
+        var stat = "";
+
+        if (section === "post") {
+            if (button === "thankYou") {
+                duration = 2000;
+                increment = 1;
+                stat = "posts";
+            }
         }
+
+        increaseProgress(section, button, duration, function () {
+            setStat(stat, stats[stat] + increment);
+            buttonEnable(thisButton);
+        });
     }
+});
+
+var buttonDisable = function (button) {
+    button
+        .removeClass("waves-effect")
+        .removeClass("waves-light")
+        .addClass("disabled")
+        .click(function (e) {
+            e.preventDefault();
+        });
 };
 
-var increaseProgress = function (section, button, callback) {
+var buttonEnable = function (button) {
+    button
+        .addClass("waves-effect")
+        .addClass("waves-light")
+        .removeClass("disabled");
+};
+
+var increaseProgress = function (section, button, duration, callback) {
     var progressBar = $("#progress-" + section + "-" + button);
+    var startTime = new Date().getTime();
     var width = 0;
 
-    while (width < 100) {
-        width++;
+    var intervalId = setInterval(function () {
+        var currentTimeTotal = new Date().getTime();
+        var currentTime = currentTimeTotal - startTime;
+
+        width = Math.round((currentTime * 100) / duration);
         progressBar.width(width + "%");
-    }
 
-    //progressBar.width("0%");
+        if (currentTime >= duration) {
+            clearInterval(intervalId);
+            setTimeout(function() {
+                progressBar.width("0%");
+                callback();
+            }, 350);
+        }
+    }, 5);
 
-    callback();
+
+    /** Works, but the real-time duration is not 5 seconds, so it doesn't work... sort of... I guess... **//*
+    var progressBar = $("#progress-" + section + "-" + button);
+    var width = 0;
+    var duration = 5000;
+    var currentMs = 0;
+
+    var intervalId = setInterval(function () {
+        if (currentMs % 10 === 0) {
+            width = (currentMs * 100) / duration;
+            progressBar.width(width + "%");
+        }
+
+        if (currentMs === duration) {
+            clearInterval(intervalId);
+            callback();
+        } else {
+            currentMs++;
+        }
+    }, 1);
+    */
 };
 
 setInterval(function () {
