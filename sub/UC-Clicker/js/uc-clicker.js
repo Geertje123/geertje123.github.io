@@ -5,7 +5,7 @@ var stats = {
     threads: 0,
     reputation: 10,
     knowledge: 0,
-    infractions: [],
+    //infractions: [],
     isStaff: false
 };
 var eventHappened = {
@@ -112,7 +112,7 @@ var actionSections = {
 
         }
     }
-}
+};
 
 var register = function () {
     var inputUsername = $("#input_username").val();
@@ -126,7 +126,7 @@ var register = function () {
         setStat("threads", stats.threads);
         setStat("reputation", stats.reputation);
         setStat("knowledge", stats.knowledge);
-        setStat("infractions", stats.infractions);
+        //setStat("infractions", stats.infractions);
         startGame();
     } else {
         Materialize.toast("Please enter a valid username", 4000);
