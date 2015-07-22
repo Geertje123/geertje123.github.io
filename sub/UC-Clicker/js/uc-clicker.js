@@ -4,7 +4,9 @@ var stats = {
     posts: 0,
     threads: 0,
     reputation: 10,
-    knowledge: 0
+    knowledge: 0,
+    infractions: [],
+    isStaff: false
 };
 var eventHappened = {
     posts: 0,
@@ -35,6 +37,91 @@ var titles = [
     ["UnKnoWnCheaTeR", 800, "gold"]
 ];
 
+var actionSections = {
+    "post": {
+        "thankYou": {
+            duration: 2000,
+            increment: 1,
+            repChance: 1,
+            friendlyName: "Thank You",
+            // these have to be met for the button to appear
+            requirements: {
+                posts: 10,
+                knowledge: 0
+            },
+            // grants always
+            grants: {
+                posts: 1,
+                knowledge: 0,
+                repChance: 1
+            },
+            // temp bonuses for a single action
+            buffs: {
+                repChance: 8
+            }
+        },
+        "giveGuiAdvice": {
+            duration: 3000,
+            increment: 2,
+            repChance: 8,
+            friendlyName: "Give GUI Advice",
+            requirements: {
+                posts: 10,
+                knowledge: 0
+            },
+            grants: {
+                posts: 1,
+                knowledge: 0,
+                repChance: 1
+            },
+            buffs: {
+                repChance: 8
+            }
+        }
+    },
+
+    "learning": {
+        "progForDummies": {
+            duration: 2000,
+            increment: 1,
+            repChance: 1,
+            friendlyName: "Read Programming For Dummies",
+            requirements: {
+                posts: 10,
+                knowledge: 0
+            },
+            grants: {
+                posts: 0,
+                knowledge: 1,
+                repChance: 0
+            },
+            buffs: {
+                repChance: 0
+            }
+
+        },
+        "readCppBook": {
+            duration: 3000,
+            increment: 2,
+            repChance: 8,
+            friendlyName: "Read CPP Book",
+            requirements: {
+                posts: 0,
+                knowledge: 10
+            },
+            grants: {
+                posts: 0,
+                knowledge: 2,
+                repChance: 0
+            },
+            buffs: {
+                repChance: 0
+            }
+
+        }
+    }
+}
+
 var register = function () {
     var inputUsername = $("#input_username").val();
 
@@ -47,6 +134,7 @@ var register = function () {
         setStat("threads", stats.threads);
         setStat("reputation", stats.reputation);
         setStat("knowledge", stats.knowledge);
+        setStat("infractions", stats.infractions);
         startGame();
     } else {
         Materialize.toast("Please enter a valid username", 4000);
@@ -54,7 +142,7 @@ var register = function () {
 };
 
 var startGame = function () {
-    Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality thank you post, to boost your post count!", 10000);
+    Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality content, to boost your post count!", 10000);
     showContent("#tabbutton-posts");
     showContent("#content-generalStats");
     showContent("#content-navigation");
@@ -74,6 +162,8 @@ var setStat = function (statKey, statValue) {
     stats[statKey] = statValue;
     $("#stats-" + statKey).text(statValue);
 };
+
+// add buttons and shit
 
 
 $("a[id^='btn-']").click(function () {
