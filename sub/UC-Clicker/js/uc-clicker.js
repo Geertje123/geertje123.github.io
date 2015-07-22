@@ -6,6 +6,10 @@ var stats = {
     reputation: 10,
     knowledge: 0
 };
+var eventHappened = {
+    posts: 0,
+    learning: 0
+};
 
 var titles = [
     ["A Pathetic n00bie", 0, "red"],
@@ -77,34 +81,82 @@ $("a[id^='btn-']").click(function () {
     var section = thisButton.prop("id").split("-")[1];
     var button = thisButton.prop("id").split("-")[2];
 
-    if (!$(this).hasClass("disabled")) {
-        buttonDisable(thisButton);
-        var duration = 0;
-        var increment = 0;
-        var stat = "";
 
-        if (section === "post") {
-            if (button === "thankYou") {
-                duration = 2000;
-                increment = 1;
-                stat = "posts";
+    if (section === "post" || section === "learn") {
+        if (!$(this).hasClass("disabled")) {
+            buttonDisable(thisButton);
+            var duration = 0;
+            var increment = 0;
+            var repChance = 0;
+
+            if (section === "post") {
+                if (button === "thankYou") {
+                    duration = 2000;
+                    increment = 1;
+                    repChance = 1;
+                } else if (button === "giveAdviceOnGUI") {
+                    duration = 3000;
+                    increment = 2;
+                    repChance = 8;
+                }
+
+                increaseProgress("post", button, duration, function () {
+                    setStat("posts", stats.posts + increment);
+                    buttonEnable(thisButton);
+                    checkTitleUpdate(stats.posts);
+
+                    if (Math.floor((Math.random() * 100) + 1) <= repChance) {
+                        var gainedRep = Math.floor((Math.random() * 15) + 1)
+                        Materialize.toast("Someone liked your post! &nbsp; <span class='green-text lighten-3'>+" + gainedRep + " rep</span>", 4000);
+                        setStat("reputation", stats.reputation + gainedRep);
+                    }
+
+                    if (stats.posts > 6 && eventHappened.posts === 0) {
+                        Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
+                        setStat("reputation", stats.reputation - 15);
+                        eventHappened.posts++;
+                    }
+                    if (stats.posts > 7 && eventHappened.posts === 1) {
+                        Materialize.toast("Maybe we should post some valuable content for once. Learning tab unlocked!", 4000);
+                        showContent("#tabbutton-learning");
+                        eventHappened.posts++;
+                    }
+                    if (stats.posts > 20 && eventHappened.posts === 2) {
+                        Materialize.toast("You are beginning to gain some popularity on the forums. Keep it going!", 4000);
+                        eventHappened.posts++;
+                    }
+                    if (stats.posts > 25 && eventHappened.posts === 3) {
+                        Materialize.toast("New learning type unlocked!", 4000);
+                        showContent("#learn-readCppBook");
+                        eventHappened.posts++;
+                    }
+                });
+            } else if (section === "learn") {
+                if (button === "progForDummies") {
+                    duration = 2000;
+                    increment = 1;
+                }
+                if (button === "readCppBook") {
+                    duration = 3000;
+                    increment = 2;
+                }
+
+                increaseProgress("learn", button, duration, function () {
+                    setStat("knowledge", stats.knowledge + increment);
+                    buttonEnable(thisButton);
+
+                    if (stats.knowledge > 1 && eventHappened.learning === 0) {
+                        Materialize.toast("Looks like someone is finally taking the effort to learn something!", 4000);
+                        eventHappened.learning++;
+                    }
+                    if (stats.knowledge > 5 && eventHappened.learning === 1) {
+                        Materialize.toast("You've picked up basic knowledge. New post type unlocked!", 4000);
+                        showContent("#post-giveAdviceOnGUI");
+                        eventHappened.learning++;
+                    }
+                });
             }
         }
-
-        increaseProgress(section, button, duration, function () {
-            setStat(stat, stats[stat] + increment);
-            buttonEnable(thisButton);
-            checkTitleUpdate(stats[stat]);
-
-            if (stats.posts === 7) {
-                Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
-                setStat("reputation", stats.reputation - 15);
-            }
-            if (stats.posts === 9) {
-                Materialize.toast("Maybe we should post some valuable content for once. We need to learn to do that though!", 4000);
-                showContent("#tabbutton-learning");
-            }
-        });
     }
 });
 
