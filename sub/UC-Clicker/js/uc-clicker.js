@@ -41,8 +41,6 @@ var actionSections = {
     "post": {
         "thankYou": {
             duration: 2000,
-            increment: 1,
-            repChance: 1,
             friendlyName: "Thank You",
             // these have to be met for the button to appear
             requirements: {
@@ -62,8 +60,6 @@ var actionSections = {
         },
         "giveGuiAdvice": {
             duration: 3000,
-            increment: 2,
-            repChance: 8,
             friendlyName: "Give GUI Advice",
             requirements: {
                 posts: 10,
@@ -83,8 +79,6 @@ var actionSections = {
     "learning": {
         "progForDummies": {
             duration: 2000,
-            increment: 1,
-            repChance: 1,
             friendlyName: "Read Programming For Dummies",
             requirements: {
                 posts: 10,
@@ -102,8 +96,6 @@ var actionSections = {
         },
         "readCppBook": {
             duration: 3000,
-            increment: 2,
-            repChance: 8,
             friendlyName: "Read CPP Book",
             requirements: {
                 posts: 0,
