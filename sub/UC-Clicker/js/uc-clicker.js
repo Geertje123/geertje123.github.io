@@ -47,7 +47,7 @@ var titles = [
 var actionSections = {
     "post": {
         "thankYou": {
-            locked: false,
+            unlocked: true,
             duration: 2000,
             friendlyName: "Thank You",
             // these have to be met for the button to appear
@@ -67,7 +67,7 @@ var actionSections = {
             }
         },
         "giveGuiAdvice": {
-            locked: true,
+            unlocked: false,
             duration: 3000,
             friendlyName: "Give GUI Advice",
             requirements: {
@@ -87,7 +87,7 @@ var actionSections = {
 
     "learning": {
         "progForDummies": {
-            locked: false,
+            unlocked: true,
             duration: 2000,
             friendlyName: "Read Programming For Dummies",
             requirements: {
@@ -105,7 +105,7 @@ var actionSections = {
 
         },
         "readCppBook": {
-            locked: true,
+            unlocked: false,
             duration: 3000,
             friendlyName: "Read CPP Book",
             requirements: {
