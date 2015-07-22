@@ -50,18 +50,15 @@ var actionSections = {
             unlocked: true,
             duration: 2000,
             friendlyName: "Thank You",
-            // these have to be met for the button to appear
             requirements: {
                 posts: 10,
                 knowledge: 0
             },
-            // grants always
             grants: {
                 posts: 1,
                 knowledge: 0,
                 repChance: 1
             },
-            // temp bonuses for a single action
             buffs: {
                 repChance: 8
             }
@@ -85,7 +82,7 @@ var actionSections = {
         }
     },
 
-    "learning": {
+    "learn": {
         "progForDummies": {
             unlocked: true,
             duration: 2000,
@@ -197,6 +194,7 @@ $("a[id^='btn-']").click(function () {
                     setStat("posts", stats.posts + increment);
                     buttonEnable(thisButton);
                     checkTitleUpdate(stats.posts);
+                    checkForButtonUnlock("post");
 
                     // Deduct or add reputation by chance
                     if (Math.floor((Math.random() * 100) + 1) <= repChance) {
@@ -259,6 +257,10 @@ $("a[id^='btn-']").click(function () {
         }
     }
 });
+
+var checkForButtonUnlock = function (section) {
+    // actionSections[section] do something with this
+};
 
 var checkTitleUpdate = function (postCount) {
     var oldTitle = stats.title;
