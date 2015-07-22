@@ -105,27 +105,34 @@ $("a[id^='btn-']").click(function () {
                     buttonEnable(thisButton);
                     checkTitleUpdate(stats.posts);
 
+                    // Deduct or add reputation by chance
                     if (Math.floor((Math.random() * 100) + 1) <= repChance) {
-                        var gainedRep = Math.floor((Math.random() * 15) + 1)
+                        var gainedRep = Math.floor((Math.random() * 15) + 1);
                         Materialize.toast("Someone liked your post! &nbsp; <span class='green-text lighten-3'>+" + gainedRep + " rep</span>", 4000);
                         setStat("reputation", stats.reputation + gainedRep);
                     }
+                    if (Math.floor((Math.random() * 100) + 1) <= Math.floor(repChance / 4)) {
+                        var lostRep = Math.floor((Math.random() * 10) + 1);
+                        Materialize.toast("Someone did not like your post! &nbsp; <span class='red-text lighten-3'>-" + lostRep + " rep</span>", 4000);
+                        setStat("reputation", stats.reputation - lostRep);
+                    }
 
-                    if (stats.posts > 6 && eventHappened.posts === 0) {
+                    // Handle events. Looks like shit I know.
+                    if (stats.posts >= 6 && eventHappened.posts === 0) {
                         Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
                         setStat("reputation", stats.reputation - 15);
                         eventHappened.posts++;
                     }
-                    if (stats.posts > 7 && eventHappened.posts === 1) {
+                    if (stats.posts >= 7 && eventHappened.posts === 1) {
                         Materialize.toast("Maybe we should post some valuable content for once. Learning tab unlocked!", 4000);
                         showContent("#tabbutton-learning");
                         eventHappened.posts++;
                     }
-                    if (stats.posts > 20 && eventHappened.posts === 2) {
+                    if (stats.posts >= 20 && eventHappened.posts === 2) {
                         Materialize.toast("You are beginning to gain some popularity on the forums. Keep it going!", 4000);
                         eventHappened.posts++;
                     }
-                    if (stats.posts > 25 && eventHappened.posts === 3) {
+                    if (stats.posts >= 25 && eventHappened.posts === 3) {
                         Materialize.toast("New learning type unlocked!", 4000);
                         showContent("#learn-readCppBook");
                         eventHappened.posts++;
@@ -145,11 +152,11 @@ $("a[id^='btn-']").click(function () {
                     setStat("knowledge", stats.knowledge + increment);
                     buttonEnable(thisButton);
 
-                    if (stats.knowledge > 1 && eventHappened.learning === 0) {
+                    if (stats.knowledge >= 1 && eventHappened.learning === 0) {
                         Materialize.toast("Looks like someone is finally taking the effort to learn something!", 4000);
                         eventHappened.learning++;
                     }
-                    if (stats.knowledge > 5 && eventHappened.learning === 1) {
+                    if (stats.knowledge >= 5 && eventHappened.learning === 1) {
                         Materialize.toast("You've picked up basic knowledge. New post type unlocked!", 4000);
                         showContent("#post-giveAdviceOnGUI");
                         eventHappened.learning++;
