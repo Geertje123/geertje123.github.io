@@ -1,3 +1,11 @@
 .invisible {
     display: none !important;
 }
+
+/* adam: override the default and remove the transitions because they screw with jquery.animate */
+.progress .determinate {
+    -moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+}

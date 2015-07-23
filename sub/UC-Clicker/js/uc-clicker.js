@@ -300,46 +300,16 @@ var buttonEnable = function (button) {
 
 var increaseProgress = function (section, button, duration, callback) {
     var progressBar = $("#progress-" + section + "-" + button);
-    var startTime = new Date().getTime();
-    var width = 0;
 
-    var intervalId = setInterval(function () {
-        var currentTimeTotal = new Date().getTime();
-        var currentTime = currentTimeTotal - startTime;
-
-        width = Math.round((currentTime * 100) / duration);
-        progressBar.width(width + "%");
-
-        if (currentTime >= duration) {
-            clearInterval(intervalId);
-            setTimeout(function() {
-                progressBar.width("0%");
-                callback();
-            }, 350);
-        }
-    }, 5);
-
-
-    /** Works, but the real-time duration is not 5 seconds, so it doesn't work... sort of... I guess... **//*
-    var progressBar = $("#progress-" + section + "-" + button);
-    var width = 0;
-    var duration = 5000;
-    var currentMs = 0;
-
-    var intervalId = setInterval(function () {
-        if (currentMs % 10 === 0) {
-            width = (currentMs * 100) / duration;
-            progressBar.width(width + "%");
-        }
-
-        if (currentMs === duration) {
-            clearInterval(intervalId);
-            callback();
-        } else {
-            currentMs++;
-        }
-    }, 1);
-    */
+    progressBar.animate({
+        width: "100%"
+    }, duration, "linear", function() {
+        callback();
+        // move it back quickly but nicely :D
+        progressBar.animate({
+            width: 0
+        }, 250);
+    });
 };
 
 setInterval(function () {
