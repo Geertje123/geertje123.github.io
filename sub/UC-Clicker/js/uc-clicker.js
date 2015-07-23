@@ -165,6 +165,26 @@ var setStat = function (statKey, statValue) {
 
 // add buttons and shit
 
+$(".reward-button").each(function() {
+    $(this).click(function() {
+        buttonDisable($(this));
+
+        var progressBar = $(this).parent().parent().find(":nth-child(2)").find(".determinate" );
+
+        progressBar.animate({
+            width: "100%"
+        }, $(this).data("duration"), "linear", function() {
+            // on done
+
+            buttonEnable($(this));
+
+            // move it back quickly but nicely :D
+            progressBar.animate({
+                width: 0
+            }, 250);
+        });
+    });
+});
 
 $(".reward-button").each(function () {
     $(this).click(function () {
