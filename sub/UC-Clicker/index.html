@@ -76,9 +76,10 @@
                                     <div class="row valign-wrapper">
                                         <div class="col s3">
                                             <a
-                                                    id="btn-post-thankYou"
-                                                    class="waves-effect waves-light btn col s12"
-                                                    style="user-select: none;"
+                                                    class="waves-effect waves-light btn col s12 reward-button"
+                                                    data-section="posts"
+                                                    data-name="thank you"
+                                                    data-duration="2000"
                                                     data-postreq="0"
                                                     data-threadreq="0"
                                                     data-knowledgereq="0"
@@ -92,7 +93,14 @@
                                         </div>
                                         <div class="col s3">
                                             <div class="progress">
-                                                <div id="progress-post-thankYou" class="determinate" style="width: 0%;"></div>
+                                                <div
+                                                        class="determinate"
+                                                        style="width: 0%;"
+                                                        data-section="posts"
+                                                        data-progressName="thank you"
+                                                        >
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

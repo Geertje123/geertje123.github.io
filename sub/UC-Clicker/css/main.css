@@ -9,3 +9,8 @@
     -o-transition: none;
     transition: none;
 }
+
+/* geert: make text in buttons not selectable */
+.btn {
+    user-select: none;
+}
