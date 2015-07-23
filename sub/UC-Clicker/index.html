@@ -64,8 +64,9 @@
                         <div class="row">
                             <div id="content-navigation" class="col s12 invisible" style="margin-bottom: 25px;">
                                 <ul class="tabs">
-                                    <li class="tab col s6" id="tabbutton-posts"><a class="active teal-text lighten-1" href="#tabcontent-posts">Posts</a></li>
-                                    <li class="tab col s6 invisible" id="tabbutton-learning"><a class="teal-text lighten-1" href="#tabcontent-learning">Learning</a></li>
+                                    <li class="tab col s4" id="tabbutton-posts"><a class="active teal-text lighten-1" href="#tabcontent-posts">Posts</a></li>
+                                    <li class="tab col s4 invisible" id="tabbutton-learning"><a class="teal-text lighten-1" href="#tabcontent-learning">Learning</a></li>
+                                    <li class="tab col s4 invisible" id="tabbutton-staff"><a class="teal-text lighten-1" href="#tabcontent-staff">Learning</a></li>
                                 </ul>
                             </div>
 
@@ -74,21 +75,39 @@
                                 <div id="content-postButtons" class="invisible">
                                     <div class="row valign-wrapper">
                                         <div class="col s3">
-                                            <a id="btn-post-thankYou" class="waves-effect waves-light btn col s12" style="user-select: none !important;">"Thank you" post</a>
+                                            <a
+                                                    id="btn-post-thankYou"
+                                                    class="waves-effect waves-light btn col s12"
+                                                    style="user-select: none;"
+                                                    data-postreq="0"
+                                                    data-threadreq="0"
+                                                    data-knowledgereq="0"
+                                                    data-postreward="1"
+                                                    data-threadreward="0"
+                                                    data-knowdledgereward="0"
+                                                    data-repchance="1"
+                                                    >
+                                                "Thank you" post
+                                            </a>
                                         </div>
                                         <div class="col s3">
                                             <div class="progress">
-                                                <div id="progress-post-thankYou" class="determinate" style="width: 0%"></div>
+                                                <div id="progress-post-thankYou" class="determinate" style="width: 0%;"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="post-giveAdviceOnGUI" class="row valign-wrapper invisible">
                                         <div class="col s3">
-                                            <a id="btn-post-giveAdviceOnGUI" class="waves-effect waves-light btn col s12" style="user-select: none !important;">Give advice on GUI</a>
+                                            <a
+                                                    id="btn-post-giveAdviceOnGUI"
+                                                    class="waves-effect waves-light btn col s12"
+                                                    style="user-select: none;">
+                                                Give advice on GUI
+                                            </a>
                                         </div>
                                         <div class="col s3">
                                             <div class="progress">
-                                                <div id="progress-post-giveAdviceOnGUI" class="determinate" style="width: 0%"></div>
+                                                <div id="progress-post-giveAdviceOnGUI" class="determinate" style="width: 0%;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -99,24 +118,39 @@
                             <div id="tabcontent-learning" class="col s12">
                                 <div class="row valign-wrapper">
                                     <div class="col s3">
-                                        <a id="btn-learn-progForDummies" class="waves-effect waves-light btn col s12" style="user-select: none !important;">Read "Programming for dummies"</a>
+                                        <a
+                                                id="btn-learn-progForDummies"
+                                                class="waves-effect waves-light btn col s12"
+                                                style="user-select: none;">
+                                            Read "Programming for dummies"
+                                        </a>
                                     </div>
                                     <div class="col s3">
                                         <div class="progress">
-                                            <div id="progress-learn-progForDummies" class="determinate" style="width: 0%"></div>
+                                            <div id="progress-learn-progForDummies" class="determinate" style="width: 0%;"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div id="learn-readCppBook" class="row valign-wrapper invisible">
                                     <div class="col s3">
-                                        <a id="btn-learn-readCppBook" class="waves-effect waves-light btn col s12" style="user-select: none !important;">Read a C++ book</a>
+                                        <a
+                                                id="btn-learn-readCppBook"
+                                                class="waves-effect waves-light btn col s12"
+                                                style="user-select: none;">
+                                            Read a C++ book
+                                        </a>
                                     </div>
                                     <div class="col s3">
                                         <div class="progress">
-                                            <div id="progress-learn-readCppBook" class="determinate" style="width: 0%"></div>
+                                            <div id="progress-learn-readCppBook" class="determinate" style="width: 0%;"></div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- ==== Staff buttons ==== -->
+                            <div id="tabcontent-staff" class="col s12">
+
                             </div>
                         </div>
                     </div>

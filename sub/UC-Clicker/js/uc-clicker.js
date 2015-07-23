@@ -167,6 +167,12 @@ var setStat = function (statKey, statValue) {
 
 
 $("a[id^='btn-']").click(function () {
+
+
+
+
+
+    /** Old and gay **//*
     var thisButton = $(this);
     var section = thisButton.prop("id").split("-")[1];
     var button = thisButton.prop("id").split("-")[2];
@@ -256,6 +262,7 @@ $("a[id^='btn-']").click(function () {
             }
         }
     }
+    */
 });
 
 var checkForButtonUnlock = function (section) {
