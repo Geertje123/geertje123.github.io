@@ -82,27 +82,28 @@ $(".reward-button").each(function () {
     var button = $(this);
 
     $(button).click(function () {
-        buttonDisable(button);
+        if (!button.hasClass("disabled")) {
+            buttonDisable(button);
 
-        var progressBar = button.parent().parent().find(":nth-child(2)").find(".determinate" );
+            var progressBar = button.parent().parent().find(":nth-child(2)").find(".determinate" );
+            progressBar.animate({ width: "100%" }, button.data("duration"), "linear", function () {
+                // Enable button and move back the line.
+                buttonEnable(button);
+                progressBar.animate({ width: 0 }, 250);
 
-        progressBar.animate({ width: "100%" }, button.data("duration"), "linear", function () {
-            // Enable button and move back the line.
-            buttonEnable(button);
-            progressBar.animate({ width: 0 }, 250);
+                // Update stats.
+                setStat("posts", stats.posts + button.data("postreward"));
+                setStat("threads", stats.threads + button.data("threadreward"));
+                setStat("knowledge", stats.knowledge + button.data("knowledgereward"));
 
-            // Update stats.
-            setStat("posts", stats.posts + button.data("postreward"));
-            setStat("threads", stats.threads + button.data("threadreward"));
-            setStat("knowledge", stats.knowledge + button.data("knowledgereward"));
-
-            // Check for unlocks and rep gains.
-            if (button.data("section") === "posts") {
-                checkIfNewTitleUnlocked();
-                doRepGainOrLoss(button.data("repchance"));
-            }
-            checkForButtonUnlock(button);
-        });
+                // Check for unlocks and rep gains.
+                if (button.data("section") === "posts") {
+                    checkIfNewTitleUnlocked();
+                    doRepGainOrLoss(button.data("repchance"));
+                }
+                checkForButtonUnlock(button);
+            });
+        }
     });
 });
 
