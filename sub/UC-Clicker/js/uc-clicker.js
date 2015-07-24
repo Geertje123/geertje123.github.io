@@ -1,12 +1,4 @@
-var stats = {
-    username: "",
-    title: "A Pathetic n00bie",
-    posts: 0,
-    threads: 0,
-    reputation: 10,
-    knowledge: 0,
-    isStaff: false
-};
+// TODO: Random names on rep messages
 
 var titles = [
     ["A Pathetic n00bie", 0, "red"],
@@ -31,6 +23,16 @@ var titles = [
     ["I Own Everyone", 700, "green"],
     ["UnKnoWnCheaTeR", 800, "gold"]
 ];
+
+var stats = {
+    username: "",
+    title: titles[0][0],
+    posts: 0,
+    threads: 0,
+    reputation: 10,
+    knowledge: 0,
+    isStaff: false
+};
 
 var events = [
     // posts
@@ -74,7 +76,7 @@ var events = [
             return stats.knowledge > 5;
         },
         give: function() {
-            Materialize.toast("You've picked up basic knowledge. New post type unlocked!", 4000);
+            Materialize.toast("You've picked up basic knowledge!", 4000);
         }
     }
 ];
@@ -158,45 +160,45 @@ $(".reward-button").each(function () {
 
 var runEvents = function() {
     for (var key in events) {
-        if (events[key].hasRun !== undefined)
-            continue;
+        if (events.hasOwnProperty(key)) {
+            if (events[key].hasRun !== undefined)
+                continue;
 
-        if (events[key].on()) {
-            events[key].give();
-            events[key].hasRun = true;
+            if (events[key].on()) {
+                events[key].give();
+                events[key].hasRun = true;
+            }
         }
     }
 };
 
-var giveRep = function(rep) {
-    // todo: random names?
-    var msg = "Someone ";
-    if (rep > 0) {
-        msg += "liked your post! &nbsp; <span class='green-text lighten-3'>+";
-        setStat( "reputation", stats.reputation + rep );
-    } else if (rep === 0) {
-        // lol
-        msg += "either liked or disliked your post but nobody likes them!";
+var giveRep = function(calculatedRep) {
+    var msg = "Someone";
+
+    if (calculatedRep > 0) {
+        msg += " liked your post! &nbsp; <span class='green-text lighten-3'>+";
     } else {
-        msg += "didn't like your post! &nbsp; <span class='red-text lighten-3'>-";
-        setStat("reputation", stats.reputation - rep);
+        msg += " didn't like your post! &nbsp; <span class='red-text lighten-3'>-";
     }
 
-    if (rep !== 0) {
-        msg += rep + "</span>";
-    }
+    setStat("reputation", stats.reputation - calculatedRep);
+    msg += calculatedRep + "</span>";
 
     Materialize.toast(msg, 4000);
 };
 
 
 var doRepGainOrLoss = function (repChance) {
+    var calculatedRep = 0;
+
     if (Math.floor((Math.random() * 100) + 1) <= repChance) {
-        var gainedRep = Math.floor((Math.random() * 15) + 1);
-        giveRep(gainedRep);
+        calculatedRep = Math.floor((Math.random() * 15) + 1);
     } else if (Math.floor((Math.random() * 100) + 1) <= Math.floor(repChance / 4)) {
-        var lostRep = Math.floor((Math.random() * 10) + 1);
-        giveRep(lostRep);
+        calculatedRep = Math.floor((Math.random() * 10) + 1);
+    }
+
+    if (calculatedRep !== 0) {
+        giveRep(calculatedRep);
     }
 };
 
