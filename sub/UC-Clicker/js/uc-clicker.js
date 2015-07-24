@@ -33,12 +33,14 @@ var stats = {
     threads: 0,
     reputation: 10,
     knowledge: 0,
-    isStaff: false
+    isStaff: false,
+    executedEvents: []
 };
 
 var events = [
     // posts
     {
+        id: 0,
         on: function() {
             return stats.posts > 5;
         },
@@ -48,6 +50,7 @@ var events = [
         }
     },
     {
+        id: 1,
         on: function() {
             return stats.posts > 7;
         },
@@ -57,6 +60,7 @@ var events = [
         }
     },
     {
+        id: 2,
         on: function() {
             return stats.posts > 20;
         },
@@ -66,6 +70,7 @@ var events = [
     },
     // learning
     {
+        id: 3,
         on: function() {
             return stats.knowledge > 0;
         },
@@ -74,6 +79,7 @@ var events = [
         }
     },
     {
+        id: 4,
         on: function() {
             return stats.knowledge > 5;
         },
@@ -192,12 +198,28 @@ $(".reward-button").each(function () {
 
 var runEvents = function() {
     for (var key in events) {
+        // because jslint sucks and it'll complain if hasOwnProperty is not used
+        // here, therefore it exists here so it's no longer an annoyance for us
         if (events.hasOwnProperty(key)) {
             if (events[key].hasRun !== undefined)
                 continue;
 
             if (events[key].on()) {
                 events[key].give();
+                events[key].hasRun = true;
+
+                stats.executedEvents.push(events[key].id);
+            }
+        }
+    }
+};
+
+var markCompletedEvents = function() {
+    for (var key in events) {
+        // see bitchy comment in runEvents
+        if (events.hasOwnProperty(key)) {
+            // rip <= ie8
+            if (stats.executedEvents.indexOf(events[key].id) > -1) {
                 events[key].hasRun = true;
             }
         }
@@ -214,7 +236,7 @@ var giveRep = function(calculatedRep) {
     }
 
     setStat("reputation", stats.reputation - calculatedRep);
-    msg += calculatedRep + "</span>";
+    msg += calculatedRep + " rep</span>";
 
     Materialize.toast(msg, 4000);
 };
