@@ -1,5 +1,7 @@
 // TODO: Random names on rep messages
 
+var version = "0.1.001";
+
 var titles = [
     ["A Pathetic n00bie", 0, "red"],
     ["n00bie", 1, "cyan"],
@@ -81,15 +83,34 @@ var events = [
     }
 ];
 
-var register = function () {
-    var inputUsername = $("#input_username").val();
-
-    if (inputUsername.length > 0 && inputUsername.length < 16) {
-        hideContent("#content-register");
-        startGame(inputUsername);
+$(document).ready(function () {
+    if (checkIfSaveExists()) {
+        getSaveData();
     } else {
-        Materialize.toast("Please enter a valid username", 4000);
+        setSaveData();
     }
+});
+
+var checkIfSaveExists = function () {
+    return localStorage.getItem("ucclicker-version") !== null &&
+        localStorage.getItem("ucclicker-stats") !== null &&
+        localStorage.getItem("ucclicker-events") !== null;
+};
+
+var getSaveData = function () {
+    var savedVersion = JSON.parse(localStorage.getItem("ucclicker-version"));
+    stats = JSON.parse(localStorage.getItem("ucclicker-stats"));
+    var eventsRan = JSON.parse(localStorage.getItem("ucclicker-events"));
+
+    if (version !== savedVersion) {
+        // uhhhhhhh
+    }
+};
+
+var setSaveData = function () {
+    localStorage.setItem("ucclicker-version", JSON.stringify(version));
+    localStorage.setItem("ucclicker-stats", JSON.stringify(stats));
+    localStorage.setItem("ucclicker-events", JSON.stringify(events));
 };
 
 var startGame = function (username) {
@@ -112,6 +133,17 @@ var startGame = function (username) {
 
     // Gives the user a welcome message.
     Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality content and boost your post count!", 10000);
+};
+
+var register = function () {
+    var inputUsername = $("#input_username").val();
+
+    if (inputUsername.length > 0 && inputUsername.length < 16) {
+        hideContent("#content-register");
+        startGame(inputUsername);
+    } else {
+        Materialize.toast("Please enter a valid username", 4000);
+    }
 };
 
 var showContent = function (query) {
