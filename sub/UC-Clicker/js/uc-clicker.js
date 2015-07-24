@@ -32,6 +32,53 @@ var titles = [
     ["UnKnoWnCheaTeR", 800, "gold"]
 ];
 
+var events = [
+    // posts
+    {
+        on: function() {
+            return stats.posts > 5;
+        },
+        give: function() {
+            Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
+            setStat("reputation", stats.reputation - 15);
+        }
+    },
+    {
+        on: function() {
+            return stats.posts > 7;
+        },
+        give: function() {
+            Materialize.toast("Maybe we should post some valuable content for once. Learning tab unlocked!", 4000);
+            showContent("#tabbutton-learning");
+        }
+    },
+    {
+        on: function() {
+            return stats.posts > 20;
+        },
+        give: function() {
+            Materialize.toast("You are beginning to gain some popularity on the forums. Keep it going!", 4000);
+        }
+    },
+    // learning
+    {
+        on: function() {
+            return stats.knowledge > 0;
+        },
+        give: function() {
+            Materialize.toast("Looks like someone is finally taking the effort to learn something!", 4000);
+        }
+    },
+    {
+        on: function() {
+            return stats.knowledge > 5;
+        },
+        give: function() {
+            Materialize.toast("You've picked up basic knowledge. New post type unlocked!", 4000);
+        }
+    }
+];
+
 var register = function () {
     var inputUsername = $("#input_username").val();
 
@@ -62,7 +109,7 @@ var startGame = function (username) {
     $(".indicator").addClass("teal").addClass("lighten-1");
 
     // Gives the user a welcome message.
-    Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality content, to boost your post count!", 10000);
+    Materialize.toast("Welcome, " + stats.username + "! Let's start by posting some low quality content and boost your post count!", 10000);
 };
 
 var showContent = function (query) {
@@ -96,6 +143,8 @@ $(".reward-button").each(function () {
                 setStat("threads", stats.threads + button.data("threadreward"));
                 setStat("knowledge", stats.knowledge + button.data("knowledgereward"));
 
+                runEvents();
+
                 // Check for unlocks and rep gains.
                 if (button.data("section") === "posts") {
                     checkIfNewTitleUnlocked();
@@ -107,55 +156,49 @@ $(".reward-button").each(function () {
     });
 });
 
-var doRepGainOrLoss = function (repChance) {
-    if (Math.floor((Math.random() * 100) + 1) <= repChance) {
-        var gainedRep = Math.floor((Math.random() * 15) + 1);
-        Materialize.toast("Someone liked your post! &nbsp; <span class='green-text lighten-3'>+" + gainedRep + " rep</span>", 4000);
-        setStat("reputation", stats.reputation + gainedRep);
-    }
-    if (Math.floor((Math.random() * 100) + 1) <= Math.floor(repChance / 4)) {
-        var lostRep = Math.floor((Math.random() * 10) + 1);
-        Materialize.toast("Someone did not like your post! &nbsp; <span class='red-text lighten-3'>-" + lostRep + " rep</span>", 4000);
-        setStat("reputation", stats.reputation - lostRep);
+var runEvents = function() {
+    for (var key in events) {
+        if (events[key].hasRun !== undefined)
+            continue;
+
+        if (events[key].on()) {
+            events[key].give();
+            events[key].hasRun = true;
+        }
     }
 };
 
-/**
- * Old and gay, though not homosexual. Just gay as in that it is stupid, but not meant insulting towards the
- * homosexual community.
- * Also, the below things need to be implemented
- **/
-// POSTS
-//    if (stats.posts >= 6 && eventHappened.posts === 0) {
-//        Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
-//        setStat("reputation", stats.reputation - 15);
-//        eventHappened.posts++;
-//    }
-//    if (stats.posts >= 7 && eventHappened.posts === 1) {
-//        Materialize.toast("Maybe we should post some valuable content for once. Learning tab unlocked!", 4000);
-//        showContent("#tabbutton-learning");
-//        eventHappened.posts++;
-//    }
-//    if (stats.posts >= 20 && eventHappened.posts === 2) {
-//        Materialize.toast("You are beginning to gain some popularity on the forums. Keep it going!", 4000);
-//        eventHappened.posts++;
-//    }
-//    if (stats.posts >= 25 && eventHappened.posts === 3) {
-//        Materialize.toast("New learning type unlocked!", 4000);
-//        showContent("#learn-readCppBook");
-//        eventHappened.posts++;
-//    }
-//
-// LEARNING
-//    if (stats.knowledge >= 1 && eventHappened.learning === 0) {
-//        Materialize.toast("Looks like someone is finally taking the effort to learn something!", 4000);
-//        eventHappened.learning++;
-//    }
-//    if (stats.knowledge >= 5 && eventHappened.learning === 1) {
-//        Materialize.toast("You've picked up basic knowledge. New post type unlocked!", 4000);
-//        showContent("#post-giveAdviceOnGUI");
-//        eventHappened.learning++;
-//    }
+var giveRep = function(rep) {
+    // todo: random names?
+    var msg = "Someone ";
+    if (rep > 0) {
+        msg += "liked your post! &nbsp; <span class='green-text lighten-3'>+";
+        setStat( "reputation", stats.reputation + rep );
+    } else if (rep === 0) {
+        // lol
+        msg += "either liked or disliked your post but nobody likes them!";
+    } else {
+        msg += "didn't like your post! &nbsp; <span class='red-text lighten-3'>-";
+        setStat("reputation", stats.reputation - rep);
+    }
+
+    if (rep !== 0) {
+        msg += rep + "</span>";
+    }
+
+    Materialize.toast(msg, 4000);
+};
+
+
+var doRepGainOrLoss = function (repChance) {
+    if (Math.floor((Math.random() * 100) + 1) <= repChance) {
+        var gainedRep = Math.floor((Math.random() * 15) + 1);
+        giveRep(gainedRep);
+    } else if (Math.floor((Math.random() * 100) + 1) <= Math.floor(repChance / 4)) {
+        var lostRep = Math.floor((Math.random() * 10) + 1);
+        giveRep(lostRep);
+    }
+};
 
 var checkForButtonUnlock = function (button) {
     $(".reward-button").each(function () {
@@ -166,12 +209,7 @@ var checkForButtonUnlock = function (button) {
                 stats.posts >= iteratedButton.data("threadreq") &&
                 stats.knowledge >= iteratedButton.data("knowledgereq") &&
                 iteratedButton.parent().parent().hasClass("invisible")) {
-                if (iteratedButton.data("name") === "read programming for dummies") {
-                    showContent("#tabbutton-learning");
-                    Materialize.toast("Learning tab unlocked!", 4000);
-                } else {
-                    Materialize.toast("New " + iteratedButton.data("section") + " button unlocked!", 4000);
-                }
+                Materialize.toast("New " + iteratedButton.data("section") + " button unlocked!", 4000);
 
                 iteratedButton.parent().parent().removeClass("invisible");
             }
