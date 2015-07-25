@@ -38,7 +38,9 @@ var stats = {
 };
 
 var events = [
-    // posts
+    /**
+     * posts
+     **/
     {
         id: 1001,
         on: function() {
@@ -79,7 +81,10 @@ var events = [
             showContent("#tabcontent-staff");
         }
     },
-    // learning
+
+    /**
+     * learning
+     **/
     {
         id: 2001,
         on: function() {
