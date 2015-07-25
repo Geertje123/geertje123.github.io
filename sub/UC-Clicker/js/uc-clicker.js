@@ -109,7 +109,9 @@ var getSaveData = function () {
     var eventsRan = JSON.parse(localStorage.getItem("ucclicker-events"));
 
     if (version !== savedVersion) {
-        // uhhhhhhh
+        showContent("#content-register");
+    } else {
+
     }
 };
 
@@ -196,7 +198,7 @@ $(".reward-button").each(function () {
     });
 });
 
-var runEvents = function() {
+var runEvents = function () {
     for (var key in events) {
         // because jslint sucks and it'll complain if hasOwnProperty is not used
         // here, therefore it exists here so it's no longer an annoyance for us
@@ -214,11 +216,12 @@ var runEvents = function() {
     }
 };
 
-var markCompletedEvents = function() {
+var markCompletedEvents = function () {
     for (var key in events) {
         // see bitchy comment in runEvents
         if (events.hasOwnProperty(key)) {
             // rip <= ie8
+            // lol like anyone cares anyway
             if (stats.executedEvents.indexOf(events[key].id) > -1) {
                 events[key].hasRun = true;
             }
@@ -226,7 +229,7 @@ var markCompletedEvents = function() {
     }
 };
 
-var giveRep = function(calculatedRep) {
+var giveRep = function (calculatedRep) {
     var msg = "Someone";
 
     if (calculatedRep > 0) {
