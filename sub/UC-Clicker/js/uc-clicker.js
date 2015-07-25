@@ -91,9 +91,9 @@ var events = [
 
 $(document).ready(function () {
     if (checkIfSaveExists()) {
-        getSaveData();
+        resumeGame();
     } else {
-        setSaveData();
+        startNewGame();
     }
 });
 
@@ -103,19 +103,19 @@ var checkIfSaveExists = function () {
         localStorage.getItem("ucclicker-events") !== null;
 };
 
-var getSaveData = function () {
+var resumeGame = function () {
     var savedVersion = JSON.parse(localStorage.getItem("ucclicker-version"));
     stats = JSON.parse(localStorage.getItem("ucclicker-stats"));
     var eventsRan = JSON.parse(localStorage.getItem("ucclicker-events"));
 
     if (version !== savedVersion) {
-        showContent("#content-register");
+        markCompletedEvents();
     } else {
 
     }
 };
 
-var setSaveData = function () {
+var startNewGame = function () {
     localStorage.setItem("ucclicker-version", JSON.stringify(version));
     localStorage.setItem("ucclicker-stats", JSON.stringify(stats));
     localStorage.setItem("ucclicker-events", JSON.stringify(events));
