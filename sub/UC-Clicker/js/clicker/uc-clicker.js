@@ -1,4 +1,35 @@
 // TODO: Random names on rep messages
+// TODO: Username specific actions
+
+/**
+ * Wiki Moderator
+ *   "ban user from wiki"
+ *   "approve new wiki content"
+ * Forum Moderator
+ *   "warn user"
+ *   "infract user"
+ *   "ban user"
+ *   "update hack & tools list"
+ *   "bitch about that one annoying user"
+ * Lead Moderator
+ *   "give forum mods advice"
+ * Super Moderator
+ *   "educate staff"
+ *   "talk shit privately"
+ *   "introduce new moderator"
+ *   "Remove pawel from staff"
+ * Forum Administrator
+ *   "ban staff member"
+ *   "talk shit secretly"
+ *   "improve forum"
+ *   "fix vB's shitty coding"
+ *   "fix issue in vb plugin"
+ * Site Administrator
+ *   "reply with dickpick to EA lawsuit mail"
+ *   "send fuck off in crayon to activision"
+ *   "Accept donations"
+ *   "Pay for cloudflare and servers"
+ */
 
 var version = "0.1.003";
 
@@ -77,6 +108,16 @@ var resumeGame = function () {
         }
     });
 
+    $(".promotion-button").each(function () {
+        var button = $(this);
+        if (stats.userlevel === button.data("userlevelreq") &&
+            stats.posts === button.data("postreq") &&
+            stats.threads === button.data("threadreq") &&
+            stats.knowledge === button.data("knowledgereq")) {
+            button.parent().parent().removeClass("invisible");
+        }
+    });
+
     showContent("#content-generalStats");
     showContent("#content-navigation");
     $(".indicator").addClass("teal").addClass("lighten-1");
@@ -145,7 +186,7 @@ var setStat = function (statKey, statValue) {
 $(".reward-button").each(function () {
     var button = $(this);
 
-    $(button).click(function () {
+    button.click(function () {
         if (!button.hasClass("disabled")) {
             buttonDisable(button);
 
@@ -172,6 +213,40 @@ $(".reward-button").each(function () {
                 // save every time something important happens
                 saveData();
             });
+        }
+    });
+});
+
+$(".promotion-button").each(function () {
+    var button = $(this);
+
+    button.click(function () {
+        if (stats.userlevel === button.data("userlevelreq") &&
+            stats.posts === button.data("postreq") &&
+            stats.threads === button.data("threadreq") &&
+            stats.knowledge === button.data("knowledgereq")) {
+
+            if (!button.hasClass("disabled")) {
+                buttonDisable(button);
+
+                var progressBar = button.parent().parent().find(":nth-child(2)").find(".determinate" );
+                progressBar.animate({ width: "100%" }, button.data("duration"), "linear", function () {
+                    // Enable button and move back the line.
+                    buttonEnable(button);
+                    progressBar.animate({ width: 0 }, 250);
+
+                    // Calculate the chance of promotion based on stats
+                    
+
+
+
+                    button.parent().parent().addClass("invisible");
+
+
+                    // save every time something important happens
+                    saveData();
+                });
+            }
         }
     });
 });
@@ -248,6 +323,22 @@ var checkForButtonUnlock = function (button) {
                 iteratedButton.parent().parent().hasClass("invisible")) {
                 Materialize.toast("New " + iteratedButton.data("section") + " button unlocked!", 4000);
 
+                iteratedButton.parent().parent().removeClass("invisible");
+            }
+        }
+    });
+
+    $(".promotion-button").each(function () {
+        if ($(this) !== button) {
+            var iteratedButton = $(this);
+
+            if (stats.posts >= iteratedButton.data("postreq") &&
+                stats.posts >= iteratedButton.data("threadreq") &&
+                stats.knowledge >= iteratedButton.data("knowledgereq") &&
+                stats.userlevel === iteratedButton.data("userlevelreq") &&
+                iteratedButton.parent().parent().hasClass("invisible")) {
+
+                Materialize.toast("New promotion button unlocked!", 4000);
                 iteratedButton.parent().parent().removeClass("invisible");
             }
         }
