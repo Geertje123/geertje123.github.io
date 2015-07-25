@@ -39,3 +39,10 @@ var userlevels = [
     ["Forum Administrator", "darkred"],
     ["Site Administrator", "red"]
 ];
+
+var randomNames = {
+    names: ["Roverturbo", "Winslow", "learn_more", "Geertje123", "evolution536", "NotAdam"],
+    getRandom: function() {
+        return this.names[Math.floor(Math.random() * this.names.length)];
+    }
+};

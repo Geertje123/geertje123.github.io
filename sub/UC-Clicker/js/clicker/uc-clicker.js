@@ -208,7 +208,7 @@ var markCompletedEvents = function () {
 };
 
 var giveRep = function (calculatedRep) {
-    var msg = "Someone";
+    var msg = randomNames.getRandom();
 
     if (calculatedRep > 0) {
         msg += " liked your post! &nbsp; <span class='green-text lighten-3'>+";
