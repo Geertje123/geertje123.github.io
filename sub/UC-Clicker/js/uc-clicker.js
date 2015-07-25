@@ -100,8 +100,7 @@ $(document).ready(function () {
 
 var checkIfSaveExists = function () {
     return localStorage.getItem("ucclicker-version") !== null &&
-        localStorage.getItem("ucclicker-stats") !== null &&
-        localStorage.getItem("ucclicker-events") !== null;
+        localStorage.getItem("ucclicker-stats") !== null;
 };
 
 var resumeGame = function () {
@@ -165,7 +164,6 @@ var resumeGame = function () {
 var saveData = function () {
     localStorage.setItem("ucclicker-version", JSON.stringify(version));
     localStorage.setItem("ucclicker-stats", JSON.stringify(stats));
-    localStorage.setItem("ucclicker-events", JSON.stringify(events));
 };
 
 var startGame = function (username) {
