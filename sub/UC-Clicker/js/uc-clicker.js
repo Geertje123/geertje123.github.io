@@ -42,7 +42,7 @@ var events = [
     {
         id: 0,
         on: function() {
-            return stats.posts > 5;
+            return stats.posts >= 6;
         },
         give: function() {
             Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
@@ -52,7 +52,7 @@ var events = [
     {
         id: 1,
         on: function() {
-            return stats.posts > 7;
+            return stats.posts >= 8;
         },
         give: function() {
             Materialize.toast("Maybe we should post some valuable content for once. Learning tab unlocked!", 4000);
@@ -62,7 +62,7 @@ var events = [
     {
         id: 2,
         on: function() {
-            return stats.posts > 20;
+            return stats.posts >= 20;
         },
         give: function() {
             Materialize.toast("You are beginning to gain some popularity on the forums. Keep it going!", 4000);
@@ -72,7 +72,7 @@ var events = [
     {
         id: 3,
         on: function() {
-            return stats.knowledge > 0;
+            return stats.knowledge >= 1;
         },
         give: function() {
             Materialize.toast("Looks like someone is finally taking the effort to learn something!", 4000);
@@ -81,7 +81,7 @@ var events = [
     {
         id: 4,
         on: function() {
-            return stats.knowledge > 5;
+            return stats.knowledge >= 5;
         },
         give: function() {
             Materialize.toast("You've picked up basic knowledge!", 4000);
@@ -107,6 +107,7 @@ var resumeGame = function () {
     var storedVersion = JSON.parse(localStorage.getItem("ucclicker-version"));
     var storedStats = JSON.parse(localStorage.getItem("ucclicker-stats"));
 
+    // If there is a different saved version found, make it compatible.
     if (version !== storedVersion) {
         markCompletedEvents();
 
@@ -120,10 +121,43 @@ var resumeGame = function () {
                 delete storedStats[key];
             }
         }
+        localStorage.setItem("ucclicker-version", JSON.stringify(version));
+    }
+    stats = storedStats;
 
-        stats = storedStats;
-    } else {
+    Materialize.toast("Welcome back, " + stats.username + "!", 5000);
 
+    // Now display everything unlocked.
+    // This needs to be optimized, but let's get it to work first.
+    if (stats.posts >= 0) {
+        showContent("#tabcontent-posts");
+        showContent("#tabbutton-posts");
+    }
+    if (stats.posts >= 8) {
+        showContent("#tabcontent-learning");
+        showContent("#tabbutton-learning");
+    }
+    if (stats.posts >= 50) {
+        showContent("#tabcontent-staff");
+        showContent("#tabbutton-staff");
+    }
+
+    $(".reward-button").each(function () {
+        var button = $(this);
+
+        if (stats.posts >= button.data("postreq") &&
+            stats.posts >= button.data("threadreq") &&
+            stats.posts >= button.data("knowledgereq")) {
+            button.parent().parent().removeClass("invisible");
+        }
+    });
+
+    showContent("#content-generalStats");
+    showContent("#content-navigation");
+    $(".indicator").addClass("teal").addClass("lighten-1");
+
+    for (var key in stats){
+        setStat(key, stats[key]);
     }
 };
 
