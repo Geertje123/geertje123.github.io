@@ -221,32 +221,49 @@ $(".promotion-button").each(function () {
     var button = $(this);
 
     button.click(function () {
-        if (stats.userlevel === button.data("userlevelreq") &&
-            stats.posts === button.data("postreq") &&
-            stats.threads === button.data("threadreq") &&
-            stats.knowledge === button.data("knowledgereq")) {
+        if (!button.hasClass("disabled")) {
+            buttonDisable(button);
 
-            if (!button.hasClass("disabled")) {
-                buttonDisable(button);
+            var progressBar = button.parent().parent().find(":nth-child(2)").find(".determinate" );
+            progressBar.animate({ width: "100%" }, button.data("duration"), "linear", function () {
+                // Enable button and move back the line.
+                buttonEnable(button);
+                progressBar.animate({ width: 0 }, 250);
 
-                var progressBar = button.parent().parent().find(":nth-child(2)").find(".determinate" );
-                progressBar.animate({ width: "100%" }, button.data("duration"), "linear", function () {
-                    // Enable button and move back the line.
-                    buttonEnable(button);
-                    progressBar.animate({ width: 0 }, 250);
+                // Calculate the chance of promotion based on stats
+                var promotionChance = 0;
+                var breakpoint = Math.floor((Math.random() * 100) + 1);
 
-                    // Calculate the chance of promotion based on stats
-                    
+                promotionChance += Math.floor(stats.posts / (button.data("postreq") + 1));
+                promotionChance += Math.floor(stats.threads / (button.data("threadreq") + 1));
+                promotionChance += Math.floor(stats.knowledge / (button.data("knowledgereq") + 1));
 
+                console.log("promotionChance:", promotionChance);
 
+                if (breakpoint <= promotionChance) {
+                    setStat("userlevel", button.data("name"));
 
+                    var index = 0;
+                    $.each(titles, function (i) {
+                        if (titles[i][0] === button.data("name")) {
+                            index = i;
+                        }
+                    });
+
+                    $("#stats-userlevel").attr("style", "color: " + titles[index][1] + ";");
                     button.parent().parent().addClass("invisible");
 
+                    if (button.data("name") === "Wiki Moderator") {
+                        Materialize.toast("Welcome to the staff team. You are now a " + button.data("name") + "!", 4000);
+                    } else {
+                        Materialize.toast("You have been promoted to " + button.data("name") + "!", 4000);
+                    }
+                } else {
+                    Materialize.toast("Promotion failed!", 4000);
+                }
 
-                    // save every time something important happens
-                    saveData();
-                });
-            }
+                saveData();
+            });
         }
     });
 });
