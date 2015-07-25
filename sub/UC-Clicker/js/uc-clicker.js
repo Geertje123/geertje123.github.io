@@ -104,12 +104,24 @@ var checkIfSaveExists = function () {
 };
 
 var resumeGame = function () {
-    var savedVersion = JSON.parse(localStorage.getItem("ucclicker-version"));
-    stats = JSON.parse(localStorage.getItem("ucclicker-stats"));
-    var eventsRan = JSON.parse(localStorage.getItem("ucclicker-events"));
+    var storedVersion = JSON.parse(localStorage.getItem("ucclicker-version"));
+    var storedStats = JSON.parse(localStorage.getItem("ucclicker-stats"));
 
-    if (version !== savedVersion) {
+    if (version !== storedVersion) {
         markCompletedEvents();
+
+        for (var key in stats) {
+            if (storedStats[key] === undefined) {
+                storedStats[key] = stats[key];
+            }
+        }
+        for (var key in storedStats) {
+            if (stats[key] === undefined) {
+                delete storedStats[key];
+            }
+        }
+
+        stats = storedStats;
     } else {
 
     }
