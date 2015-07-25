@@ -1,6 +1,6 @@
 // TODO: Random names on rep messages
 
-var version = "0.1.002";
+var version = "0.1.003";
 
 var stats = {
     username: "",
