@@ -23,13 +23,25 @@ var titles = [
     ["The Legendary Cheater", 470, "blue"],
     ["Supreme H4x0|2", 570, "yellow"],
     ["I Own Everyone", 700, "green"],
-    ["UnKnoWnCheaTeR", 800, "gold"]
+    ["UnKnoWnCheaTeR", 800, "gold"],
+    ["Master Contributor", 1000, "navy"],
+    ["A Forum Hero", 1400, "red"],
+    ["<strong>Hacked North Korea</strong>", 2000, "gold"],
+    ["<strong>Hacked the universe</strong>", 3000, "navy"],
+    ["<strong>Expert Hacker</strong>", 4000, "red"],
+    ["<strong><em>Unknown Hacker</em></strong>", 5000, "gold"],
+    ["<strong><em>Infinite Poster</em></strong>", 7500, "navy"],
+    ["<strong><em>MVP</em></strong>", 10000, "red"]
 ];
 
 var userlevels = [
     ["Member", "black"],
-    ["Wiki Moderator", "brown"]
-    // etc
+    ["Wiki Moderator", "#B87333"],
+    ["Forum Moderator", "navy"],
+    ["Lead Moderator", "#348781"],
+    ["Super Moderator", "blue"],
+    ["Forum Administrator", "darkred"],
+    ["Site Administrator", "red"]
 ];
 
 var stats = {
@@ -49,8 +61,7 @@ $(document).ready(function () {
     if (checkIfSaveExists()) {
         resumeGame();
     } else {
-        showContent("#content-register")
-        //saveData();
+        showContent("#content-register");
     }
 });
 
