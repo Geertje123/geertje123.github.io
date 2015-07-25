@@ -300,7 +300,7 @@ var giveRep = function (calculatedRep) {
         msg += " didn't like your post! &nbsp; <span class='red-text lighten-3'>-";
     }
 
-    setStat("reputation", stats.reputation - calculatedRep);
+    setStat("reputation", stats.reputation + calculatedRep);
     msg += calculatedRep + " rep</span>";
 
     Materialize.toast(msg, 4000);
