@@ -1,6 +1,6 @@
 // TODO: Random names on rep messages
 
-var version = "0.1.001";
+var version = "0.1.002";
 
 var titles = [
     ["A Pathetic n00bie", 0, "red"],
@@ -40,7 +40,7 @@ var stats = {
 var events = [
     // posts
     {
-        id: 0,
+        id: 1001,
         on: function() {
             return stats.posts >= 6;
         },
@@ -50,7 +50,7 @@ var events = [
         }
     },
     {
-        id: 1,
+        id: 1002,
         on: function() {
             return stats.posts >= 8;
         },
@@ -60,7 +60,7 @@ var events = [
         }
     },
     {
-        id: 2,
+        id: 1003,
         on: function() {
             return stats.posts >= 20;
         },
@@ -68,9 +68,20 @@ var events = [
             Materialize.toast("You are beginning to gain some popularity on the forums. Keep it going!", 4000);
         }
     },
+    {
+        id: 1004,
+        on: function() {
+            return stats.posts >= 50;
+        },
+        give: function() {
+            Materialize.toast("You have achieved the minimum post count required to join staff. Staff tab unlocked!", 4000);
+            showContent("#tabbutton-staff");
+            showContent("#tabcontent-staff");
+        }
+    },
     // learning
     {
-        id: 3,
+        id: 2001,
         on: function() {
             return stats.knowledge >= 1;
         },
@@ -79,7 +90,7 @@ var events = [
         }
     },
     {
-        id: 4,
+        id: 2002,
         on: function() {
             return stats.knowledge >= 5;
         },
@@ -146,8 +157,8 @@ var resumeGame = function () {
         var button = $(this);
 
         if (stats.posts >= button.data("postreq") &&
-            stats.posts >= button.data("threadreq") &&
-            stats.posts >= button.data("knowledgereq")) {
+            stats.threads >= button.data("threadreq") &&
+            stats.knowledge >= button.data("knowledgereq")) {
             button.parent().parent().removeClass("invisible");
         }
     });
@@ -159,6 +170,8 @@ var resumeGame = function () {
     for (var key in stats){
         setStat(key, stats[key]);
     }
+
+    saveData();
 };
 
 var saveData = function () {
