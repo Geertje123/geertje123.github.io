@@ -93,7 +93,8 @@ $(document).ready(function () {
     if (checkIfSaveExists()) {
         resumeGame();
     } else {
-        startNewGame();
+        showContent("#content-register")
+        //saveData();
     }
 });
 
@@ -109,8 +110,6 @@ var resumeGame = function () {
 
     // If there is a different saved version found, make it compatible.
     if (version !== storedVersion) {
-        markCompletedEvents();
-
         for (var key in stats) {
             if (storedStats[key] === undefined) {
                 storedStats[key] = stats[key];
@@ -124,6 +123,8 @@ var resumeGame = function () {
         localStorage.setItem("ucclicker-version", JSON.stringify(version));
     }
     stats = storedStats;
+
+    markCompletedEvents();
 
     Materialize.toast("Welcome back, " + stats.username + "!", 5000);
 
@@ -161,7 +162,7 @@ var resumeGame = function () {
     }
 };
 
-var startNewGame = function () {
+var saveData = function () {
     localStorage.setItem("ucclicker-version", JSON.stringify(version));
     localStorage.setItem("ucclicker-stats", JSON.stringify(stats));
     localStorage.setItem("ucclicker-events", JSON.stringify(events));
@@ -195,6 +196,7 @@ var register = function () {
     if (inputUsername.length > 0 && inputUsername.length < 16) {
         hideContent("#content-register");
         startGame(inputUsername);
+        saveData();
     } else {
         Materialize.toast("Please enter a valid username", 4000);
     }
@@ -239,6 +241,9 @@ $(".reward-button").each(function () {
                     doRepGainOrLoss(button.data("repchance"));
                 }
                 checkForButtonUnlock(button);
+
+                // save every time something important happens
+                saveData();
             });
         }
     });
