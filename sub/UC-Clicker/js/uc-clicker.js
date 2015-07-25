@@ -26,11 +26,19 @@ var titles = [
     ["UnKnoWnCheaTeR", 800, "gold"]
 ];
 
+var userlevels = [
+    ["Member", "black"],
+    ["Wiki Moderator", "brown"]
+    // etc
+];
+
 var stats = {
     username: "",
     title: titles[0][0],
+    userlevel: "",
     posts: 0,
     threads: 0,
+    wikiarticles: 0,
     reputation: 10,
     knowledge: 0,
     isStaff: false,
@@ -194,8 +202,10 @@ var startGame = function (username) {
     // Displays the stats.
     setStat("username", username);
     setStat("title", titles[0][0]); $("#stats-title").attr("style", "color: " + titles[0][2] + ";");
+    setStat("userlevel", userlevels[0][0]); $("#stats-userlevel").attr("style", "color: " + titles[0][1] + ";");
     setStat("posts", stats.posts);
     setStat("threads", stats.threads);
+    setStat("wikiarticles", stats.wikiarticles);
     setStat("reputation", stats.reputation);
     setStat("knowledge", stats.knowledge);
 
