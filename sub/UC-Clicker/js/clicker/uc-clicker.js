@@ -98,25 +98,7 @@ var resumeGame = function () {
         showContent("#tabbutton-staff");
     }
 
-    $(".reward-button").each(function () {
-        var button = $(this);
-
-        if (stats.posts >= button.data("postreq") &&
-            stats.threads >= button.data("threadreq") &&
-            stats.knowledge >= button.data("knowledgereq")) {
-            button.parent().parent().removeClass("invisible");
-        }
-    });
-
-    $(".promotion-button").each(function () {
-        var button = $(this);
-        if (stats.userlevel === button.data("userlevelreq") &&
-            stats.posts === button.data("postreq") &&
-            stats.threads === button.data("threadreq") &&
-            stats.knowledge === button.data("knowledgereq")) {
-            button.parent().parent().removeClass("invisible");
-        }
-    });
+    checkForButtonUnlock();
 
     showContent("#content-generalStats");
     showContent("#content-navigation");
