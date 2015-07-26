@@ -254,8 +254,8 @@ $(".promotion-button").each(function () {
                 } else {
                     Materialize.toast("Promotion failed!", 4000);
 
-                    // add a 33% extra chance to get promoted after each sequential application
-                    stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly += 0.33;
+                    // add a 50% extra chance to get promoted after each sequential application
+                    stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly += 0.50;
                 }
 
                 saveData();
