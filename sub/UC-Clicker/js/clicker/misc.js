@@ -22,12 +22,12 @@ var titles = [
     ["UnKnoWnCheaTeR", 800, "gold"],
     ["Master Contributor", 1000, "navy"],
     ["A Forum Hero", 1400, "red"],
-    ["<strong>Hacked North Korea</strong>", 2000, "gold"],
-    ["<strong>Hacked the universe</strong>", 3000, "navy"],
-    ["<strong>Expert Hacker</strong>", 4000, "red"],
-    ["<strong><em>Unknown Hacker</em></strong>", 5000, "gold"],
-    ["<strong><em>Infinite Poster</em></strong>", 7500, "navy"],
-    ["<strong><em>MVP</em></strong>", 10000, "red"]
+    ["<b>Hacked North Korea</b>", 2000, "gold"],
+    ["<b>Hacked the universe</b>", 3000, "navy"],
+    ["<b>Expert Hacker</b>", 4000, "red"],
+    ["<b><em>Unknown Hacker</em></b>", 5000, "gold"],
+    ["<b><em>Infinite Poster</em></b>", 7500, "navy"],
+    ["<b><em>MVP</em></b>", 10000, "red"]
 ];
 
 var userlevels = [
