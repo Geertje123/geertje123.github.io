@@ -43,7 +43,8 @@ var stats = {
     reputation: 10,
     knowledge: 0,
     isStaff: false,
-    executedEvents: []
+    executedEvents: [],
+    staffApplicationWeightToFixIssueWhereYouCantProgressQuickly: 1
 };
 
 $(document).ready(function () {
@@ -220,7 +221,13 @@ $(".promotion-button").each(function () {
                 promotionChance += Math.floor(stats.threads / (button.data("threadreq") + 1));
                 promotionChance += Math.floor(stats.knowledge / (button.data("knowledgereq") + 1));
 
-                console.log("promotionChance:", promotionChance);
+                console.log("chance / 100:", promotionChance, "buff:", stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly);
+
+                // multiply chance by the sequential weight gain for subsequent applications
+                // complex explanation for simple problems
+                promotionChance *= stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly;
+
+                console.log("promotionChance:", promotionChance, "breakpoint:", breakpoint);
 
                 if (breakpoint <= promotionChance) {
                     setStat("userlevel", button.data("name"));
@@ -240,8 +247,15 @@ $(".promotion-button").each(function () {
                     } else {
                         Materialize.toast("You have been promoted to " + button.data("name") + "!", 4000);
                     }
+
+                    // reset application weight bonus to 100%
+                    stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly = 1;
+
                 } else {
                     Materialize.toast("Promotion failed!", 4000);
+
+                    // add a 33% extra chance to get promoted after each sequential application
+                    stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly += 0.33;
                 }
 
                 saveData();
