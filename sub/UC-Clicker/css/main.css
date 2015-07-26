@@ -17,3 +17,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.last-action-button {
+    margin-bottom: 50px;
+}

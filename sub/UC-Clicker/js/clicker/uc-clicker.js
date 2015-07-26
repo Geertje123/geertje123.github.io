@@ -109,7 +109,7 @@ var resumeGame = function () {
     $(".action-button").each(function () {
         var iteratedButton = $(this);
 
-        for (var i = 0; i < amountOfPromotions; i++) {
+        for (var i = 0; i < amountOfPromotions + 1; i++) {
             if (iteratedButton.data("userlevelreq") === userlevels[i][0]) {
                 iteratedButton.parent().parent().removeClass("invisible");
             }
@@ -123,6 +123,17 @@ var resumeGame = function () {
     for (var key in stats){
         setStat(key, stats[key]);
     }
+
+    $.each(userlevels, function (i) {
+        if (userlevels[i][0] === stats.userlevel) {
+            $("#stats-userlevel").attr("style", "color: " + userlevels[i][1] + ";");
+        }
+    });
+    $.each(titles, function (i) {
+        if (titles[i][0] === stats.title) {
+            $("#stats-title").attr("style", "color: " + titles[i][2] + ";");
+        }
+    });
 
     saveData();
 };
