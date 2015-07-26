@@ -8,7 +8,7 @@ var events = [
 			return stats.posts >= 6;
 		},
 		give: function() {
-			Materialize.toast("Someone noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
+			Materialize.toast(randomNames.getRandom() + " noticed you are spamming thank you posts everywhere! &nbsp; <span class='red-text lighten-3'>-15 rep</span>", 4000);
 			setStat("reputation", stats.reputation - 15);
 		}
 	},
