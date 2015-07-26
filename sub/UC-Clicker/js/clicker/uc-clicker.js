@@ -99,7 +99,22 @@ var resumeGame = function () {
         showContent("#tabbutton-staff");
     }
 
-    checkForButtonUnlock();
+    checkForButtonUnlock(null, true);
+
+    // Not in the above called function since this only needs to happen on startup
+    var amountOfPromotions = 0;
+    while (stats.userlevel !== userlevels[amountOfPromotions][0]) {
+        amountOfPromotions++;
+    }
+    $(".action-button").each(function () {
+        var iteratedButton = $(this);
+
+        for (var i = 0; i < amountOfPromotions; i++) {
+            if (iteratedButton.data("userlevelreq") === userlevels[i][0]) {
+                iteratedButton.parent().parent().removeClass("invisible");
+            }
+        }
+    });
 
     showContent("#content-generalStats");
     showContent("#content-navigation");
@@ -191,7 +206,7 @@ $(".reward-button").each(function () {
                     checkIfNewTitleUnlocked();
                     doRepGainOrLoss(button.data("repchance"));
                 }
-                checkForButtonUnlock(button);
+                checkForButtonUnlock(button, false);
 
                 // save every time something important happens
                 saveData();
@@ -217,36 +232,41 @@ $(".promotion-button").each(function () {
                 var promotionChance = 0;
                 var breakpoint = Math.floor((Math.random() * 100) + 1);
 
+                // I added the + 1 as a cheat to not be able to divide by 0.
                 promotionChance += Math.floor(stats.posts / (button.data("postreq") + 1));
                 promotionChance += Math.floor(stats.threads / (button.data("threadreq") + 1));
                 promotionChance += Math.floor(stats.knowledge / (button.data("knowledgereq") + 1));
 
-                console.log("chance / 100:", promotionChance, "buff:", stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly);
-
                 // multiply chance by the sequential weight gain for subsequent applications
                 // complex explanation for simple problems
+                // - I have no fucking clue what you are talking about
                 promotionChance *= stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly;
 
-                console.log("promotionChance:", promotionChance, "breakpoint:", breakpoint);
-
                 if (breakpoint <= promotionChance) {
+                    // Sets new user level
                     setStat("userlevel", button.data("name"));
-
-                    var index = 0;
-                    $.each(titles, function (i) {
-                        if (titles[i][0] === button.data("name")) {
-                            index = i;
+                    $.each(userlevels, function (i) {
+                        if (userlevels[i][0] === button.data("name")) {
+                            $("#stats-userlevel").attr("style", "color: " + userlevels[i][1] + ";");
                         }
                     });
 
-                    $("#stats-userlevel").attr("style", "color: " + titles[index][1] + ";");
+                    // Hides the button
                     button.parent().parent().addClass("invisible");
 
+                    // Show different member on first
                     if (button.data("name") === "Wiki Moderator") {
                         Materialize.toast("Welcome to the staff team. You are now a " + button.data("name") + "!", 4000);
                     } else {
                         Materialize.toast("You have been promoted to " + button.data("name") + "!", 4000);
                     }
+
+                    // Show the buttons belonging to this promotionlevel
+                    $(".action-button").each(function () {
+                        if ($(this).data("userlevelreq") === button.data("name")) {
+                            $(this).parent().parent().removeClass("invisible");
+                        }
+                    });
 
                     // reset application weight bonus to 100%
                     stats.staffApplicationWeightToFixIssueWhereYouCantProgressQuickly = 1;
@@ -325,17 +345,19 @@ var doRepGainOrLoss = function (repChance) {
     }
 };
 
-var checkForButtonUnlock = function (button) {
+var checkForButtonUnlock = function (button, startup) {
     $(".reward-button").each(function () {
         if ($(this) !== button) {
             var iteratedButton = $(this);
 
             if (stats.posts >= iteratedButton.data("postreq") &&
-                stats.posts >= iteratedButton.data("threadreq") &&
+                stats.threads >= iteratedButton.data("threadreq") &&
                 stats.knowledge >= iteratedButton.data("knowledgereq") &&
                 iteratedButton.parent().parent().hasClass("invisible")) {
-                Materialize.toast("New " + iteratedButton.data("section") + " button unlocked!", 4000);
 
+                if (!startup) {
+                    Materialize.toast("New " + iteratedButton.data("section") + " button unlocked!", 4000);
+                }
                 iteratedButton.parent().parent().removeClass("invisible");
             }
         }
@@ -346,12 +368,14 @@ var checkForButtonUnlock = function (button) {
             var iteratedButton = $(this);
 
             if (stats.posts >= iteratedButton.data("postreq") &&
-                stats.posts >= iteratedButton.data("threadreq") &&
+                stats.threads >= iteratedButton.data("threadreq") &&
                 stats.knowledge >= iteratedButton.data("knowledgereq") &&
                 stats.userlevel === iteratedButton.data("userlevelreq") &&
                 iteratedButton.parent().parent().hasClass("invisible")) {
 
-                Materialize.toast("New promotion button unlocked!", 4000);
+                if (!startup) {
+                    Materialize.toast("New promotion button unlocked!", 4000);
+                }
                 iteratedButton.parent().parent().removeClass("invisible");
             }
         }
