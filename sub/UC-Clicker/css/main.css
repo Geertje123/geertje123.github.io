@@ -43,6 +43,11 @@ body {
     padding: 5px;
 }
 
+/* fix retarded spacing issue */
+.uc-container .inner .row {
+    margin-bottom: 0;
+}
+
 .invisible {
     display: none !important;
 }
