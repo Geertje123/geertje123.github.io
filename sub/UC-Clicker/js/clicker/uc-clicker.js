@@ -31,7 +31,7 @@
  *   "Pay for cloudflare and servers"
  */
 
-var version = "0.1.003";
+var version = "0.1.004";
 
 var stats = {
     username: "",
@@ -44,7 +44,8 @@ var stats = {
     knowledge: 0,
     isStaff: false,
     executedEvents: [],
-    staffApplicationWeightToFixIssueWhereYouCantProgressQuickly: 1
+    staffApplicationWeightToFixIssueWhereYouCantProgressQuickly: 1,
+    canBePromoted: true
 };
 
 $(document).ready(function () {
@@ -173,6 +174,13 @@ var register = function () {
     if (inputUsername.length > 0 && inputUsername.length < 16) {
         hideContent("#content-register");
         startGame(inputUsername);
+
+        // <Geertje123> if (stats.username == ¨xenocidewiki¨) { blockPromotions(); }
+        // <NotAdam> LOL
+        if (inputUsername.toLowerCase() === "xenocidewiki") {
+            stats.canBePromoted = false;
+        }
+
         saveData();
     } else {
         Materialize.toast("Please enter a valid username", 4000);
@@ -374,23 +382,25 @@ var checkForButtonUnlock = function (button, startup) {
         }
     });
 
-    $(".promotion-button").each(function () {
-        if ($(this) !== button) {
-            var iteratedButton = $(this);
+    if (stats.canBePromoted) {
+        $( ".promotion-button" ).each( function () {
+            if ( $( this ) !== button ) {
+                var iteratedButton = $( this );
 
-            if (stats.posts >= iteratedButton.data("postreq") &&
-                stats.threads >= iteratedButton.data("threadreq") &&
-                stats.knowledge >= iteratedButton.data("knowledgereq") &&
-                stats.userlevel === iteratedButton.data("userlevelreq") &&
-                iteratedButton.parent().parent().hasClass("invisible")) {
+                if ( stats.posts >= iteratedButton.data( "postreq" ) &&
+                    stats.threads >= iteratedButton.data( "threadreq" ) &&
+                    stats.knowledge >= iteratedButton.data( "knowledgereq" ) &&
+                    stats.userlevel === iteratedButton.data( "userlevelreq" ) &&
+                    iteratedButton.parent().parent().hasClass( "invisible" ) ) {
 
-                if (!startup) {
-                    Materialize.toast("New promotion button unlocked!", 4000);
+                    if ( !startup ) {
+                        Materialize.toast( "New promotion button unlocked!", 4000 );
+                    }
+                    iteratedButton.parent().parent().removeClass( "invisible" );
                 }
-                iteratedButton.parent().parent().removeClass("invisible");
             }
-        }
-    });
+        } );
+    }
 };
 
 var checkIfNewTitleUnlocked = function () {

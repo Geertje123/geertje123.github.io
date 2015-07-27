@@ -34,13 +34,15 @@ body {
     background: url("../img/cat_back.gif") repeat-x;
     height: 27px;
     /* COPIED STRAIGHT FROM UC KEK WAT U GONNA DO BOUT IT */
+    /* U AINT GOT SHIT ON MY C&P HACKS CAN'T STOP ME, THE PASTA KING */
     font: bold 11pt verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif;
     padding-left: 5px;
     padding-top: 3px;
 }
 
 .uc-container .inner {
-    padding: 5px;
+    padding: 6px;
+    background-color: #f7f7f7;
 }
 
 /* fix retarded spacing issue */
