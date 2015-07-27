@@ -1,3 +1,26 @@
+body {
+    background-color: #ededed;
+}
+
+/* awful but it makes the progress bar more visually centered */
+.progress {
+    margin-top: 15px;
+}
+
+.heading {
+    width: 100%;
+    background: url("../img/header_repeat_x.png") repeat-x;
+    height: 159px;
+    box-shadow: 0px 2px 10px 0px rgba(10, 10, 10, 0.33);
+}
+
+.container {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 .invisible {
     display: none !important;
 }
